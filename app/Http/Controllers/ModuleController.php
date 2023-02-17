@@ -9,7 +9,6 @@ class ModuleController extends Controller
 {
     public function CreateModule(Request $request){
         $module = new Module;
-        $module->id = $request->id;
         $module->module_code = $request->module_code;
         $module->name = $request->name;
         $module->is_active = $request->is_active;
@@ -24,9 +23,8 @@ class ModuleController extends Controller
         }
 
     }
-    public function UpdateModule(Request $request){
+    public function UpdateModule(Request $request,$id){
         $module = Module::find($request->id);
-        $module->id = $request->id;
         $module->module_code = $request->module_code;
         $module->name = $request->name;
         $module->is_active = $request->is_active;

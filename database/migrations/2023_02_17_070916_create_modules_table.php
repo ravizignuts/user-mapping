@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('module_code',7);
             $table->string('name',64);
             $table->boolean('is_active')->default(1);
-            $table->boolean('is_in_menu')->default(4);
+            $table->boolean('is_in_menu')->default(1);
             $table->integer('display_order');
             $table->timestamps();
         });
