@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+use App\Traits\Uuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Permission extends Model
+{
+    use Uuids;
+    use HasFactory;
+    protected $fillable = [
+        'name',
+        'description',
+        'is_active'
+    ];
+    public function module(){
+        return $this->belongsToMany();
+    }
+}
