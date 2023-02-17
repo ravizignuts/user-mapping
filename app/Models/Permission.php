@@ -15,6 +15,6 @@ class Permission extends Model
         'is_active'
     ];
     public function module(){
-        return $this->belongsToMany();
+        // return $this->belongsToMany();
     }
 }

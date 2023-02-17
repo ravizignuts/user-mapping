@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 
@@ -29,8 +31,8 @@ Route::prefix('v1')->group(function(){
         Route::get('view','ViewModule');
     });
 
-});
-Route::prefix('v1')->group(function(){
+
+
 
     Route::controller(PermissionController::class)->prefix('permission')->group(function(){
         Route::post('create','CreatePermission');
@@ -39,4 +41,27 @@ Route::prefix('v1')->group(function(){
         Route::get('view','ViewPermission');
     });
 
+
+
+
+    Route::controller(UserController::class)->prefix('user')->group(function(){
+        Route::post('create','CreateUser');
+        Route::put('update/{id}','UpdateUser');
+        Route::delete('delete/{id}','DeleteUser');
+        Route::get('view','ListUser');
+    });
+
+
+
+
+
+    Route::controller(RoleController::class)->prefix('role')->group(function(){
+        Route::post('create','CreateRole');
+        Route::put('update/{id}','UpdateRole');
+        Route::delete('delete/{id}','DeleteRole');
+        Route::get('view','ListRole');
+    });
+
 });
+
+
