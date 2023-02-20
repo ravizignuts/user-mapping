@@ -7,43 +7,78 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    public function CreateRole(Request $request)
+    /**
+     * API for create role
+     * @param Request $request
+     * @return json
+     */
+    public function create(Request $request)
     {
-        $res = Role::create([
-        'name' => $request->name,
-        'description' => $request->description,
-        'is_active' => $request->is_active,
+        $this->validate($request, [
+            'name'        => 'string|required',
+            'description' => 'string|required'
         ]);
-        if($res){
-            return ["Record"=>"Role Created Successfuly"];
-        }
-        else{
-            return ["Record"=>"Role is Not Created"];
-        }
+        $role = Role::create($request->only('name', 'description'));
+        return response()->json([
+            'message' => 'Role created successfully',
+            'role'    => $role
+        ]);
     }
-    public function UpdateRole(Request $request, $id)
+    /**
+     * API for update role
+     * @param Request $request,$id
+     * @return json
+     */
+    public function update(Request $request, $id)
     {
-        $role = Role::find($id);
-        $role->name = $request->name;
-        $role->description = $request->description;
-        $role->is_active = $request->is_active;
-        $res = $role->save();
-        if($res){
-            return ["Record"=>"Role Updated Successfuly"];
-        }
-        else{
-            return ["Record"=>"Role is Not Updated"];
-        }
+        $this->validate($request, [
+            'name'        => 'string|required',
+            'description' => 'string|required'
+        ]);
+        $role = Role::findOrFail($id);
+        $role->update($request->only('name', 'description'));
+        return response()->json([
+            'message' => 'Role updated successfully',
+            'role'    => $role
+        ]);
     }
-    public function DeleteRole($id)
+    /**
+     * API for delete role
+     * @param $id
+     * @return json
+     */
+    public function delete($id)
     {
-        $role = Role::find($id);
+        $role = Role::findOrFail($id);
         $role->delete();
-
+        return response()->json([
+            'message' => 'Role deleted successfully',
+            'role'    => $role
+        ]);
     }
-    public function ListRole()
+    /**
+     * API for list role
+     * @return json
+     */
+    public function list()
     {
-        $role = Role::all();
-        return $role;
+        $roles = Role::get();
+        return response()->json([
+            'message' => 'List all role',
+            'role'    => $roles
+        ]);
+    }
+    /**
+     * API for view role
+     * @param $id
+     * @return json
+     */
+    public function view($id)
+    {
+        $role = Role::findOrFail($id);
+        return response()->json([
+            'message' => 'Role details',
+            'role'    => $role
+        ]);
     }
 }

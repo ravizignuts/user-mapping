@@ -21,47 +21,33 @@ use App\Http\Controllers\PermissionController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::prefix('v1')->group(function () {
+    Route::controller(ModuleController::class)->prefix('module')->group(function () {
+        Route::post('create', 'create');
+        Route::put('update/{id}', 'update');
+        Route::delete('delete/{id}', 'delete');
+        Route::get('view/{id}', 'view');
+        Route::get('/', 'list');
 
-Route::prefix('v1')->group(function(){
-
-    Route::controller(ModuleController::class)->prefix('module')->group(function(){
-        Route::post('create','CreateModule');
-        Route::put('update/{id}','UpdateModule');
-        Route::delete('delete/{id}','DeleteModule');
-        Route::get('view','ViewModule');
     });
-
-
-
-
-    Route::controller(PermissionController::class)->prefix('permission')->group(function(){
-        Route::post('create','CreatePermission');
-        Route::put('update/{id}','UpdatePermission');
-        Route::delete('delete/{id}','DeletePermission');
-        Route::get('view','ViewPermission');
+    Route::controller(PermissionController::class)->prefix('permission')->group(function () {
+        Route::post('create', 'CreatePermission');
+        Route::put('update/{id}', 'UpdatePermission');
+        Route::delete('delete/{id}', 'DeletePermission');
+        Route::get('view', 'ViewPermission');
     });
-
-
-
-
-    Route::controller(UserController::class)->prefix('user')->group(function(){
-        Route::post('create','CreateUser');
-        Route::put('update/{id}','UpdateUser');
-        Route::delete('delete/{id}','DeleteUser');
-        Route::get('view','ListUser');
+    Route::controller(UserController::class)->prefix('user')->group(function () {
+        Route::post('create', 'create');
+        Route::put('update/{id}', 'update');
+        Route::delete('delete/{id}', 'delete');
+        Route::get('/', 'list');
+        Route::get('view/{id}', 'view');
     });
-
-
-
-
-
-    Route::controller(RoleController::class)->prefix('role')->group(function(){
-        Route::post('create','CreateRole');
-        Route::put('update/{id}','UpdateRole');
-        Route::delete('delete/{id}','DeleteRole');
-        Route::get('view','ListRole');
+    Route::controller(RoleController::class)->prefix('role')->group(function () {
+        Route::post('create', 'create');
+        Route::put('update/{id}', 'update');
+        Route::delete('delete/{id}', 'delete');
+        Route::get('view/{id}', 'view');
+        Route::get('/', 'list');
     });
-
 });
-
-
