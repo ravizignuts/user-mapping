@@ -13,7 +13,7 @@ class PermissionController extends Controller
     /**
      * API for create permission
      * @param Request $request
-     * @return json
+     * @return json data
      */
     public function create(Request $request)
     {
@@ -39,7 +39,7 @@ class PermissionController extends Controller
     /**
      * API for update permission
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function update(Request $request, $id)
     {
@@ -78,7 +78,7 @@ class PermissionController extends Controller
     /**
      * API for delete permission
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function delete(Request $request, $id)
     {
@@ -95,7 +95,7 @@ class PermissionController extends Controller
     /**
      * API for view permission
      * @param $id
-     * @return json
+     * @return json data
      */
     public function view($id)
     {
@@ -107,7 +107,7 @@ class PermissionController extends Controller
     }
     /**
      * API for list all permissions
-     * @return json
+     * @return json data
      */
     public function list()
     {

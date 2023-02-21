@@ -12,7 +12,7 @@ class ModuleController extends Controller
     /**
      * API for create module
      * @param Request $request
-     * @return json
+     * @return json data
      */
     public function create(Request $request)
     {
@@ -30,7 +30,7 @@ class ModuleController extends Controller
     /**
      * API for update module
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function update(Request $request, $id)
     {
@@ -49,10 +49,11 @@ class ModuleController extends Controller
     /**
      * API for delete module
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function delete(Request $request, $id)
     {
+
         $module = Module::withTrashed()->findOrFail($id);
         // $module = Module::onlyTrashed()->findOrFail($id);//it is return only trashed data
         $request->softdelete?$module->delete():$module->forceDelete();
@@ -65,7 +66,7 @@ class ModuleController extends Controller
     /**
      * API for view module
      * @param $id
-     * @return json
+     * @return json data
      */
     public function view($id)
     {
@@ -77,7 +78,7 @@ class ModuleController extends Controller
     }
     /**
      * API for list module
-     * @return json
+     * @return json data
      */
     public function list()
     {

@@ -13,7 +13,7 @@ class UserController extends Controller
     /**
      * API for create User
      * @param Request $request
-     * @return json
+     * @return json data
      */
     public function create(Request $request)
     {
@@ -24,7 +24,7 @@ class UserController extends Controller
             'email'      => 'string|required|unique:users,email',
             'code'       => 'string|required|min:6',
             'type'       => 'string|required|in:superadmin,admin,user',
-            'role_id'    => 'exists:roles,id'
+            'role_id.*'    => 'exists:roles,id'
         ]);
         $request['password'] = Hash::make($request->password);
         $user = User::create($request->only('first_name', 'last_name', 'email', 'password', 'code', 'type'));
@@ -37,7 +37,7 @@ class UserController extends Controller
     /**
      * API for update user
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function update(Request $request, $id)
     {
@@ -46,7 +46,7 @@ class UserController extends Controller
             'last_name'  => 'string|required',
             'code'       => 'string|required|min:6',
             'type'       => 'string|required|in:superadmin,admin,user',
-            'role_id'    => 'exists:roles,id'
+            'role_id.*'  => 'exists:roles,id'
         ]);
         $user = User::findOrFail($id);
         $user->update($request->only('first_name', 'last_name', 'code', 'type'));
@@ -59,7 +59,7 @@ class UserController extends Controller
     /**
      * API for delete user
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function delete(Request $request,$id)
     {
@@ -75,7 +75,7 @@ class UserController extends Controller
     /**
      * API for view user
      * @param $id
-     * @return json
+     * @return json data
      */
     public function view($id)
     {
@@ -87,7 +87,7 @@ class UserController extends Controller
     }
     /**
      * API for list user
-     * @return json
+     * @return json data
      */
     public function list()
     {

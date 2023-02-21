@@ -17,7 +17,7 @@ class RoleController extends Controller
         $this->validate($request, [
             'name'          => 'string|required',
             'description'   => 'string|required',
-            'permission_id' => 'exists:permissions,id'
+            'permission_id.*' => 'exists:permissions,id'
         ]);
         $role = Role::create($request->only('name', 'description'));
         $role->permissions()->attach($request->permission_id);
@@ -29,7 +29,7 @@ class RoleController extends Controller
     /**
      * API for update role
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function update(Request $request, $id)
     {
@@ -49,7 +49,7 @@ class RoleController extends Controller
     /**
      * API for delete role
      * @param Request $request,$id
-     * @return json
+     * @return json data
      */
     public function delete(Request $request,$id)
     {
@@ -64,11 +64,11 @@ class RoleController extends Controller
     }
     /**
      * API for list role
-     * @return json
+     * @return json data
      */
     public function list()
     {
-        $roles = Role::with('permissions')->get();
+        $roles = Role::with('permissions','users')->get();
         return response()->json([
             'message' => 'List all role',
             'role'    => $roles
@@ -76,7 +76,7 @@ class RoleController extends Controller
     }
     /**
      * API for view role
-     * @param $id
+     * @param $id data
      * @return json
      */
     public function view($id)
