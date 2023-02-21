@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use App\Models\PermissionModule;
+use Illuminate\Console\View\Components\Choice;
 use Illuminate\Support\Facades\DB;
 
 class ModuleController extends Controller
@@ -55,9 +56,12 @@ class ModuleController extends Controller
     {
 
         $module = Module::withTrashed()->findOrFail($id);
+        $choice =$request->softdelete;
         // $module = Module::onlyTrashed()->findOrFail($id);//it is return only trashed data
-        $request->softdelete?$module->delete():$module->forceDelete();
-        // $module->restore();
+        // $request->softdelete?$module->delete():$module->forceDelete();
+        if ($request->softdelete == 'softdelete')  $module->delete();
+        elseif ($request->softdelete == 'restore') $module->restore();
+        else $module->forceDelete();
         return response()->json([
             'message'    => 'Module deleted successfully',
             'module'     => $module

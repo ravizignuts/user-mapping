@@ -68,7 +68,7 @@ class RoleController extends Controller
      */
     public function list()
     {
-        $roles = Role::with('permissions','users')->get();
+        $roles = Role::with('permissions')->get();
         return response()->json([
             'message' => 'List all role',
             'role'    => $roles
@@ -81,7 +81,7 @@ class RoleController extends Controller
      */
     public function view($id)
     {
-        $role = Role::with('permissions')->findOrFail($id);
+        $role = Role::with('permissions','users')->findOrFail($id);
         return response()->json([
             'message' => 'Role details',
             'role'    => $role
