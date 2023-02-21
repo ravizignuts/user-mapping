@@ -1,15 +1,16 @@
 <?php
 
 namespace App\Models;
+
 use App\Traits\Uuids;
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Module extends Model
 {
-    use Uuids;
-    use HasFactory;
+    use Uuids, HasFactory, SoftDeletes;
     protected $fillable = [
         'module_code',
         'name',
@@ -17,7 +18,8 @@ class Module extends Model
         'is_in_menu',
         'display_order'
     ];
-    public function permission(){
-         return $this->belongsToMany(Permission::class,'permission_modules','module_id','permission_id','id','id');
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_modules');
     }
 }

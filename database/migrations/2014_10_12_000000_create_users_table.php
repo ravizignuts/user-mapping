@@ -22,6 +22,8 @@ return new class extends Migration
             $table->boolean('is_first_login')->default(1);
             $table->char('code',6);
             $table->enum('type', ['superadmin', 'admin', 'user'])->default('user');
+            $table->timestamps();
+            $table->softDeletes();
             // $table->foreignUuid('created_by')->references('id')->on('users');
             // $table->timestamps();
             // $table->foreignUuid('updated_by')->references('id')->on('users');

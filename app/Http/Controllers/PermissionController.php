@@ -55,36 +55,41 @@ class PermissionController extends Controller
         ]);
         $permission = Permission::findOrFail($id);
         $permission->update($request->only('name', 'description'));
-        foreach($request->modules as $module){
-                PermissionModule::updateOrCreate([
+        foreach ($request->modules as $module) {
+            PermissionModule::updateOrCreate(
+                [
                     'permission_id'     => $permission->id,
                     'module_id'         => $module['module_id'],
                 ],
                 [
-                'add_access'    => $module['add_access'],
-                'view_access'   => $module['view_access'],
-                'delete_access' => $module['delete_access'],
-                'edit_access'   => $module['edit_access']
-            ]);
+                    'add_access'    => $module['add_access'],
+                    'view_access'   => $module['view_access'],
+                    'delete_access' => $module['delete_access'],
+                    'edit_access'   => $module['edit_access']
+                ]
+            );
         }
         return response()->json([
             'message'    => 'Permission Updated successfully',
-            'permission' =>   $permission,
+            'permission' => $permission,
             'modules'    => $request->modules
         ]);
     }
     /**
      * API for delete permission
-     * @param $id
+     * @param Request $request,$id
      * @return json
      */
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        $permissionModule = PermissionModule::findOrFail($id);
-        $permissionModule->delete();
+        $permission = Permission::withTrashed()->findOrFail($id);
+        // $permission = Permission::onlyTrashed()findOrFail($id);
+        if ($request->softdelete == 'softdelete')  $permission->delete();
+        elseif ($request->softdelete == 'restore') $permission->restore();
+        else $permission->forceDelete();
         return response()->json([
             'message'    => 'Permission deleted successfully',
-            'permission' => $permissionModule
+            'permission' => $permission
         ]);
     }
     /**

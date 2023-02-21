@@ -48,13 +48,15 @@ class RoleController extends Controller
     }
     /**
      * API for delete role
-     * @param $id
+     * @param Request $request,$id
      * @return json
      */
-    public function delete($id)
+    public function delete(Request $request,$id)
     {
-        $role = Role::findOrFail($id);
-        $role->delete();
+        $role = Role::withTrashed()->findOrFail($id);
+        if($request->softdelete == 'softdelete') $role->delete();
+        elseif($request->softdelete == 'restore')$role->restore();
+        else $role->forcedelete();
         return response()->json([
             'message' => 'Role deleted successfully',
             'role'    => $role

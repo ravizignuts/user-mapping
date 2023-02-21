@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('is_in_menu')->default(1);
             $table->integer('display_order');
             $table->timestamps();
+            $table->softDeletes('deleted_at');
             // $table->foreignUuid('created_by')->references('id')->on('users')->nullable();
             // $table->foreignUuid('updated_by')->references('id')->on('users')->nullable();
             // $table->timestamp('deleted_at');

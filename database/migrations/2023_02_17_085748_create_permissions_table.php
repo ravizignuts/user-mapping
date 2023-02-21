@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description',151);
             $table->boolean('is_active')->default(1);
             $table->timestamps();
+            $table->softDeletes('deleted_at');
         });
     }
     /**

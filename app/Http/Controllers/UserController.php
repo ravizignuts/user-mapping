@@ -34,7 +34,6 @@ class UserController extends Controller
             'user'    => $user
         ]);
     }
-
     /**
      * API for update user
      * @param Request $request,$id
@@ -59,15 +58,18 @@ class UserController extends Controller
     }
     /**
      * API for delete user
-     * @param $id
+     * @param Request $request,$id
      * @return json
      */
-    public function delete($id)
+    public function delete(Request $request,$id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        $user = User::withTrashed()->findOrFail($id);
+        if($request->softdelete == 'softdelete') $user->delete();
+        elseif($request->softdelete == 'restore')$user->restore();
+        else $user->forcedelete();
         return response()->json([
             'message' => 'User deleted successfully',
+            'user'    => $user
         ]);
     }
     /**
@@ -83,7 +85,6 @@ class UserController extends Controller
             'user'    => $user
         ]);
     }
-
     /**
      * API for list user
      * @return json

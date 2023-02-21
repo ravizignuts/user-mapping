@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('delete_access')->default(1);
             $table->boolean('view_access')->default(1);
             $table->timestamps();
+            $table->softDeletes('deleted_at');
         });
     }
 

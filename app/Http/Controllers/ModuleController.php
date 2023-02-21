@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use Illuminate\Http\Request;
+use App\Models\PermissionModule;
+use Illuminate\Support\Facades\DB;
 
 class ModuleController extends Controller
 {
@@ -46,16 +48,18 @@ class ModuleController extends Controller
     }
     /**
      * API for delete module
-     * @param $id
+     * @param Request $request,$id
      * @return json
      */
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        $module = Module::findOrFail($id);
-        $module->delete();
+        $module = Module::withTrashed()->findOrFail($id);
+        // $module = Module::onlyTrashed()->findOrFail($id);//it is return only trashed data
+        $request->softdelete?$module->delete():$module->forceDelete();
+        // $module->restore();
         return response()->json([
-            'message' => 'Module deleted successfully',
-            'module'  => $module
+            'message'    => 'Module deleted successfully',
+            'module'     => $module
         ]);
     }
     /**
@@ -77,7 +81,7 @@ class ModuleController extends Controller
      */
     public function list()
     {
-        $modules = Module::get();
+        $modules = Module::withTrashed()->get();
         return response()->json([
             'message' => 'All modules',
             'module'  => $modules

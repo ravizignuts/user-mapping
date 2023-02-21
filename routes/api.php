@@ -36,14 +36,14 @@ Route::prefix('v1')->group(function () {
         Route::get('view/{id}', 'view');
         Route::get('/', 'list');
     });
-    Route::controller(UserController::class)->prefix('user')->group(function () {
+    Route::controller(RoleController::class)->prefix('role')->group(function () {
         Route::post('create', 'create');
         Route::put('update/{id}', 'update');
         Route::delete('delete/{id}', 'delete');
-        Route::get('/', 'list');
         Route::get('view/{id}', 'view');
+        Route::get('/', 'list');
     });
-    Route::controller(RoleController::class)->prefix('role')->group(function () {
+    Route::controller(UserController::class)->prefix('user')->group(function () {
         Route::post('create', 'create');
         Route::put('update/{id}', 'update');
         Route::delete('delete/{id}', 'delete');
