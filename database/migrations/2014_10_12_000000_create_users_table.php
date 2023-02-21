@@ -21,8 +21,15 @@ return new class extends Migration
             $table->boolean('is_active')->default(1);
             $table->boolean('is_first_login')->default(1);
             $table->char('code',6);
-            $table->enum('type', ['superadmin', 'admin', 'user']);
-            $table->timestamps();
+            $table->enum('type', ['superadmin', 'admin', 'user'])->default('user');
+            // $table->foreignUuid('created_by')->references('id')->on('users');
+            // $table->timestamps();
+            // $table->foreignUuid('updated_by')->references('id')->on('users');
+            // $table->timestamp('deleted_at');
+            // $table->foreignUuid('deleted_by')->references('id')->on('users');
+            // $table->boolean('is_delete')->default(1);
+
+
         });
     }
 

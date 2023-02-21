@@ -19,6 +19,12 @@ return new class extends Migration
             $table->boolean('is_in_menu')->default(1);
             $table->integer('display_order');
             $table->timestamps();
+            // $table->foreignUuid('created_by')->references('id')->on('users')->nullable();
+            // $table->foreignUuid('updated_by')->references('id')->on('users')->nullable();
+            // $table->timestamp('deleted_at');
+            // $table->foreignUuid('deleted_by')->references('id')->on('users')->nullable();
+            // $table->boolean('is_delete')->default(1);
+
         });
     }
 

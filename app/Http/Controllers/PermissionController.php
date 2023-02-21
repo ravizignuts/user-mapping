@@ -4,33 +4,116 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\Permission;
+use App\Models\PermissionModule;
+use Faker\Provider\ar_EG\Person;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
-    public function CreatePermission(Request $request){
-        $permission = new Permission;
-        $permission->name = $request->name;
-        $permission->description = $request->description;
-        $permission->is_active = $request->is_active;
-        $permission->save();
-        $module = Module::find($request->module_id);
-
-
-
-
+    /**
+     * API for create permission
+     * @param Request $request
+     * @return json
+     */
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'name'                    => 'string|required|max:51',
+            'description'             => 'string|required|max:151',
+            'modules'                 => 'array',
+            'modules.*.module_id'     => 'exists:modules,id',
+            'modules.*.add_access'    => 'required|boolean',
+            'modules.*.edit_access'   => 'required|boolean',
+            'modules.*.delete_access' => 'required|boolean',
+            'modules.*.view_access'   => 'required|boolean'
+        ]);
+        $permission = Permission::create($request->only('name', 'description'));
+        $permission->modules()->createMany($request->modules);
+        $modules = $request->modules;
+        return response()->json([
+            'message'    => 'Permission created successfully',
+            'permission' => $permission,
+            'modules'    => $modules
+        ]);
     }
-    public function UpdatePermission(){
-
+    /**
+     * API for update permission
+     * @param Request $request,$id
+     * @return json
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name'                    => 'string|required|max:51',
+            'description'             => 'string|required|max:151',
+            'modules.*'               => 'array',
+            'modules.*.module_id'     => 'exists:modules,id',
+            'modules.*.add_access'    => 'required|boolean',
+            'modules.*.edit_access'   => 'required|boolean',
+            'modules.*.delete_access' => 'required|boolean',
+            'modules.*.view_access'   => 'required|boolean'
+        ]);
+        $permission = Permission::findOrFail($id);
+        $permission->update($request->only('name', 'description'));
+        foreach($request->modules as $module){
+                PermissionModule::updateOrCreate([
+                    'permission_id'     => $permission->id,
+                    'module_id'         => $module['module_id'],
+                ],
+                [
+                'add_access'    => $module['add_access'],
+                'view_access'   => $module['view_access'],
+                'delete_access' => $module['delete_access'],
+                'edit_access'   => $module['edit_access']
+            ]);
+        }
+        return response()->json([
+            'message'    => 'Permission Updated successfully',
+            'permission' =>   $permission,
+            'modules'    => $request->modules
+        ]);
     }
-    public function DeletePermission($id){
-        $permission = Permission::find($id);
-        $res = $permission->delete();
-
+    /**
+     * API for delete permission
+     * @param $id
+     * @return json
+     */
+    public function delete($id)
+    {
+        $permissionModule = PermissionModule::findOrFail($id);
+        $permissionModule->delete();
+        return response()->json([
+            'message'    => 'Permission deleted successfully',
+            'permission' => $permissionModule
+        ]);
     }
-    public function ViewPermission(){
-        $permission = Permission::all();
-        return $permission;
+    /**
+     * API for view permission
+     * @param $id
+     * @return json
+     */
+    public function view($id)
+    {
+        $permissions = Permission::findOrFail($id);
+        $module = $permissions->modules();
+        // $permission = Permission::findOrFail($permissions['permission_id']);
+        return response()->json([
+            'message'    => 'Permission details',
+            'permission' => $permissions,
+            'module'     => $module
+        ]);
+    }
+    /**
+     * API for list all permissions
+     * @return json
+     */
+    public function list()
+    {
+        $permissions = PermissionModule::get();
 
+        return response()->json([
+            'message'    => 'All Permissions',
+            'permission' => $permissions
+        ]);
     }
 }

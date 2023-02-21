@@ -2,8 +2,9 @@
 
 namespace App\Models;
 use App\Traits\Uuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Permission;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Module extends Model
 {
@@ -16,4 +17,7 @@ class Module extends Model
         'is_in_menu',
         'display_order'
     ];
+    public function permission(){
+         return $this->belongsToMany(Permission::class,'permission_modules','module_id','permission_id','id','id');
+    }
 }

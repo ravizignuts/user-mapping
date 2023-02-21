@@ -28,13 +28,13 @@ Route::prefix('v1')->group(function () {
         Route::delete('delete/{id}', 'delete');
         Route::get('view/{id}', 'view');
         Route::get('/', 'list');
-
     });
     Route::controller(PermissionController::class)->prefix('permission')->group(function () {
-        Route::post('create', 'CreatePermission');
-        Route::put('update/{id}', 'UpdatePermission');
-        Route::delete('delete/{id}', 'DeletePermission');
-        Route::get('view', 'ViewPermission');
+        Route::post('create', 'create');
+        Route::put('update/{id}', 'update');
+        Route::delete('delete/{id}', 'delete');
+        Route::get('view/{id}', 'view');
+        Route::get('/', 'list');
     });
     Route::controller(UserController::class)->prefix('user')->group(function () {
         Route::post('create', 'create');
