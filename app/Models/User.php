@@ -19,6 +19,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public $timestamps = false;
     protected $fillable = [
         'first_name',
         'last_name',
@@ -50,4 +51,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function roles(){
+        return $this->belongsToMany(Role::class,'role_users');
+    }
 }

@@ -12,10 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('permission_roles', function (Blueprint $table) {
-            $table->foreignUlid('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->foreignUlid('permission_id')->references('id')->on('permissions')->onDelete('cascade');
+            $table->foreignUuid('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreignUuid('permission_id')->references('id')->on('permissions')->onDelete('cascade');
             $table->boolean('is_active')->default(1);
-            $table->timestamps();
         });
     }
 

@@ -24,9 +24,11 @@ class UserController extends Controller
             'email'      => 'string|required|unique:users,email',
             'code'       => 'string|required|min:6',
             'type'       => 'string|required|in:superadmin,admin,user',
+            'role_id'    => 'exists:roles,id'
         ]);
         $request['password'] = Hash::make($request->password);
         $user = User::create($request->only('first_name', 'last_name', 'email', 'password', 'code', 'type'));
+        $user->roles()->attach($request->role_id);
         return response()->json([
             'message' => 'User created successfully',
             'user'    => $user
@@ -45,9 +47,11 @@ class UserController extends Controller
             'last_name'  => 'string|required',
             'code'       => 'string|required|min:6',
             'type'       => 'string|required|in:superadmin,admin,user',
+            'role_id'    => 'exists:roles,id'
         ]);
         $user = User::findOrFail($id);
         $user->update($request->only('first_name', 'last_name', 'code', 'type'));
+        $user->roles()->sync($request->role_id);
         return response()->json([
             'message' => 'User updated successfully',
             'user'    => $user
@@ -73,7 +77,7 @@ class UserController extends Controller
      */
     public function view($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('roles')->findOrFail($id);
         return response()->json([
             'message' => 'User detail',
             'user'    => $user
@@ -86,7 +90,7 @@ class UserController extends Controller
      */
     public function list()
     {
-        $users = User::get();
+        $users = User::with('roles')->get();
         return response()->json([
             'message' => 'List of all users',
             'user'    => $users

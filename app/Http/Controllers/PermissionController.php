@@ -94,13 +94,10 @@ class PermissionController extends Controller
      */
     public function view($id)
     {
-        $permissions = Permission::findOrFail($id);
-        $module = $permissions->modules();
-        // $permission = Permission::findOrFail($permissions['permission_id']);
+        $permissions = Permission::with('modules')->findOrFail($id);
         return response()->json([
             'message'    => 'Permission details',
             'permission' => $permissions,
-            'module'     => $module
         ]);
     }
     /**
@@ -109,8 +106,7 @@ class PermissionController extends Controller
      */
     public function list()
     {
-        $permissions = PermissionModule::get();
-
+        $permissions = Permission::with('modules')->get();
         return response()->json([
             'message'    => 'All Permissions',
             'permission' => $permissions
