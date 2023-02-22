@@ -19,16 +19,18 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'first_name' => 'string|required',
-            'last_name'  => 'string|required',
-            'password'   => 'string|min:8|max:20',
-            'email'      => 'string|required|unique:users,email',
-            'code'       => 'string|required|min:6',
-            'type'       => 'string|required|in:superadmin,admin,user',
+            // 'first_name' => 'string|required',
+            // 'last_name'  => 'string|required',
+            // 'password'   => 'string|min:8|max:20',
+            // 'email'      => 'string|required|unique:users,email',
+            // 'code'       => 'string|required|min:6|unique:users,code',
+            // 'type'       => 'string|required|in:superadmin,admin,user',
+            'user_id'      => 'required|uuid',
             'role_id.*'    => 'exists:roles,id'
         ]);
-        $request['password'] = Hash::make($request->password);
-        $user = User::create($request->only('first_name', 'last_name', 'email', 'password', 'code', 'type'));
+        // $request['password'] = Hash::make($request->password);
+        // $user = User::create($request->only('first_name', 'last_name', 'email', 'password', 'code', 'type'));
+        $user = User::findOrFail($request->user_id);
         $user->roles()->attach($request->role_id);
         return response()->json([
             'message' => 'User created successfully',
