@@ -8,6 +8,7 @@ use App\Models\PermissionModule;
 use Illuminate\Console\View\Components\Choice;
 use Illuminate\Support\Facades\DB;
 
+
 class ModuleController extends Controller
 {
     /**
@@ -82,14 +83,26 @@ class ModuleController extends Controller
     }
     /**
      * API for list module
+     * @param Request $request
      * @return json data
      */
-    public function list()
+    public function list(Request $request)
     {
-        $modules = Module::withTrashed()->get();
+        // $modules = Module::withTrashed()->get();
+        // $modules = DB::table('modules')->paginate($request->per_page,['*'],$request->page_number);
+        $modules = Module::query();
+        $perpage = $request->per_page;
+        $page_number = $request->page_number;
+        if(isset($request->sort_field) && isset($request->sort_by)){
+            $modules->orderBy($request->sort_field,$request->sort_by);
+        }else{
+            $modules->orderBy('module_code','asc');
+        }
+        $modules = $modules->skip($perpage * ($page_number-1))->take($perpage);
         return response()->json([
             'message' => 'All modules',
-            'module'  => $modules
+            'current_page' => $page_number,
+            'modules'  => $modules->get()
         ]);
     }
 }

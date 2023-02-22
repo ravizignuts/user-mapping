@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Return_;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -87,14 +88,22 @@ class UserController extends Controller
     }
     /**
      * API for list user
+     * @param Request $request
      * @return json data
      */
-    public function list()
+    public function list(Request $request)
     {
-        $users = User::with('roles')->get();
+        // $users = User::with('roles')->get();
+        // $users = DB::table('users')->paginate($request->per_page,['*'],$request->page_number);
+        $users = User::query();
+        $perpage = $request->per_page;
+        $page_number = $request->page_number;
+        $users->orderBy('id','asc');
+        $users = $users->skip($perpage * ($page_number - 1))->take($perpage);
         return response()->json([
             'message' => 'List of all users',
-            'user'    => $users
+            'current_page' => $page_number,
+            'user'    => $users->get()
         ]);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Permission;
 use App\Models\PermissionModule;
 use Faker\Provider\ar_EG\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -58,8 +59,8 @@ class PermissionController extends Controller
         foreach ($request->modules as $module) {
             PermissionModule::updateOrCreate(
                 [
-                    'permission_id'     => $permission->id,
-                    'module_id'         => $module['module_id'],
+                    'permission_id' => $permission->id,
+                    'module_id'     => $module['module_id'],
                 ],
                 [
                     'add_access'    => $module['add_access'],
@@ -107,14 +108,21 @@ class PermissionController extends Controller
     }
     /**
      * API for list all permissions
+     * @param Request $request
      * @return json data
      */
-    public function list()
+    public function list(Request $request)
     {
-        $permissions = Permission::with('modules')->get();
+        // $permissions = Permission::with('modules')->get();
+        // $roles = DB::table('permissions')->paginate($request->per_page,['*'],$request->page_number);
+        $permissions = Permission::query();
+        $perpage = $request->per_page;
+        $page_number = $request->page_number;
+        $permissions = $permissions->skip($perpage * ($page_number - 1))->take($perpage);
         return response()->json([
-            'message'    => 'All Permissions',
-            'permission' => $permissions
+            'message'      => 'All Permissions',
+            'current_page' => $page_number,
+            'permission'   => $permissions->get()
         ]);
     }
 }
