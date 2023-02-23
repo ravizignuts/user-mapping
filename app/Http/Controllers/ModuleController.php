@@ -57,14 +57,25 @@ class ModuleController extends Controller
     {
 
         $module = Module::withTrashed()->findOrFail($id);
-        $choice =$request->softdelete;
         // $module = Module::onlyTrashed()->findOrFail($id);//it is return only trashed data
         // $request->softdelete?$module->delete():$module->forceDelete();
         if ($request->softdelete == 'softdelete')  $module->delete();
-        elseif ($request->softdelete == 'restore') $module->restore();
         else $module->forceDelete();
         return response()->json([
             'message'    => 'Module deleted successfully',
+            'module'     => $module
+        ]);
+    }
+    /**
+     * API for restore module
+     * @param $id
+     * @return json
+     */
+    public function restore($id){
+        $module = Module::withTrashed()->findOrFail($id);
+        $module->restore();
+        return response()->json([
+            'message'    => 'Module Restored successfully',
             'module'     => $module
         ]);
     }
