@@ -31,33 +31,35 @@ Route::controller(AuthController::class)->prefix('auth')->group(function(){
 });
 });
 Route::middleware('auth:sanctum')->group(function(){
+    Route::get('logout',[AuthController::class,'logout']);
     Route::prefix('v1')->group(function () {
         Route::controller(ModuleController::class)->prefix('module')->group(function (){
-            Route::post('create', 'create');
-            Route::put('update/{id}', 'update');
-            Route::delete('delete/{id}', 'delete');
-            Route::get('view/{id}', 'view');
-            Route::get('/', 'list');
+            Route::post('create', 'create')->middleware('checkaccess:1,add_access');
+            Route::put('update/{id}', 'update')->middleware('checkaccess:1,edit_access');
+            Route::delete('delete/{id}', 'delete')->middleware('checkaccess:1,delete_access');
+            Route::get('view/{id}', 'view')->middleware('checkaccess:1,view_access');
+            Route::get('/', 'list')->middleware('checkaccess:1,view_access');
         });
         Route::controller(PermissionController::class)->prefix('permission')->group(function (){
-            Route::post('create', 'create');
-            Route::put('update/{id}', 'update');
-            Route::delete('delete/{id}', 'delete');
-            Route::get('view/{id}', 'view');
-            Route::get('/', 'list');
+            Route::post('create', 'create')->middleware('checkaccess:1,add_access');
+            Route::put('update/{id}', 'update')->middleware('checkaccess:1,edit_access');
+            Route::delete('delete/{id}', 'delete')->middleware('checkaccess:1,delete_access');
+            Route::get('view/{id}', 'view')->middleware('checkaccess:1,view_access');
+            Route::get('/', 'list')->middleware('checkaccess:1,view_access');
         });
         Route::controller(RoleController::class)->prefix('role')->group(function (){
-            Route::post('create', 'create');
-            Route::put('update/{id}', 'update');
-            Route::delete('delete/{id}', 'delete');
-            Route::get('view/{id}', 'view');
-            Route::get('/', 'list');
+            Route::post('create', 'create')->middleware('checkaccess:1,add_access');
+            Route::put('update/{id}', 'update')->middleware('checkaccess:1,edit_access');
+            Route::delete('delete/{id}', 'delete')->middleware('checkaccess:1,delete_access');
+            Route::get('view/{id}', 'view')->middleware('checkaccess:1,view_access');
+            Route::get('/', 'list')->middleware('checkaccess:1,view_access');
+        });
         });
         Route::controller(UserController::class)->prefix('user')->group(function (){
-            Route::post('create', 'create');
-            Route::put('update/{id}', 'update');
-            Route::delete('delete/{id}', 'delete');
-            Route::get('view/{id}', 'view');
+            Route::post('create', 'create')->middleware('checkaccess:1,add_access');
+            Route::put('update/{id}', 'update')->middleware('checkaccess:1,edit_access');
+            Route::delete('delete/{id}', 'delete')->middleware('checkaccess:1,delete_access');
+            Route::get('view/{id}', 'view')->middleware('checkaccess:1,view_access');
             Route::get('/', 'list')->middleware('checkaccess:1,view_access');
         });
     });

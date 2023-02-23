@@ -18,8 +18,10 @@ class AccessMiddleware
     {
         $user =  Auth::user()->hasUser($module, $permission); //Testing , Add
         if ($user) {
-            return $user;
+            return $next($request);
         }
-        return $next($request);
+        return response()->json([
+            'status'=>"not Access",
+        ]);
     }
 }
