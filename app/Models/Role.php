@@ -16,12 +16,21 @@ class Role extends Model
         'description',
         'is_active'
     ];
+    /**
+     * define manyTomany relationship with Pemission using permission_roles pivot table
+     */
     public function permissions(){
         return $this->belongsToMany(Permission::class,'permission_roles');
     }
+    /**
+     * define manyTomany relationship with User using role_users pivot table
+     */
     public function users(){
         return $this->belongsToMany(User::class,'role_users');
     }
+    /**
+     * pass parameter through relationship
+     */
     public function hasRole($module_code,$permission){
         return $this->permissions()->first()->hasPermission($module_code,$permission);
     }
