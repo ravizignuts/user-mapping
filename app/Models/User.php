@@ -58,6 +58,7 @@ class User extends Authenticatable
     }
     /**
      * pass parameter of middleware through relationship
+     * * @param $module_code,$permission
      */
     public function hasUser($module_code,$permission){
         return $this->roles()->first()->hasRole($module_code,$permission);

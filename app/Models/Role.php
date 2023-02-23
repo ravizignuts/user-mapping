@@ -30,6 +30,7 @@ class Role extends Model
     }
     /**
      * pass parameter through relationship
+     * * @param $module_code,$permission
      */
     public function hasRole($module_code,$permission){
         return $this->permissions()->first()->hasPermission($module_code,$permission);
