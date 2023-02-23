@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function()
             Route::post('create', 'create')->middleware('checkaccess:2,add_access');
             Route::put('update/{id}', 'update')->middleware('checkaccess:2,edit_access');
             Route::delete('delete/{id}', 'delete')->middleware('checkaccess:2,delete_access');
+            Route::delete('restore/{id}', 'restore')->middleware('checkaccess:2,delete_access');
             Route::get('view/{id}', 'view')->middleware('checkaccess:2,view_access');
             Route::get('/', 'list')->middleware('checkaccess:2,view_access');
         });
@@ -46,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function()
             Route::post('create', 'create')->middleware('checkaccess:1,add_access');
             Route::put('update/{id}', 'update')->middleware('checkaccess:1,edit_access');
             Route::delete('delete/{id}', 'delete')->middleware('checkaccess:1,delete_access');
+            Route::delete('restore/{id}', 'restore')->middleware('checkaccess:2,delete_access');
             Route::get('view/{id}', 'view')->middleware('checkaccess:1,view_access');
             Route::get('/', 'list')->middleware('checkaccess:1,view_access');
         });
@@ -53,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function()
             Route::post('create', 'create')->middleware('checkaccess:1,add_access');
             Route::put('update/{id}', 'update')->middleware('checkaccess:1,edit_access');
             Route::delete('delete/{id}', 'delete')->middleware('checkaccess:1,delete_access');
+            Route::delete('restore/{id}', 'restore')->middleware('checkaccess:2,delete_access');
             Route::get('view/{id}', 'view')->middleware('checkaccess:1,view_access');
             Route::get('/', 'list')->middleware('checkaccess:1,view_access');
         });
@@ -60,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function()
             Route::post('create', 'create')->middleware('checkaccess:1,add_access');
             Route::put('update/{id}', 'update')->middleware('checkaccess:1,edit_access');
             Route::delete('delete/{id}', 'delete')->middleware('checkaccess:1,delete_access');
+            Route::delete('restore/{id}', 'restore')->middleware('checkaccess:2,delete_access');
             Route::get('view/{id}', 'view')->middleware('checkaccess:1,view_access');
             Route::get('/', 'list')->middleware('checkaccess:1,view_access');
         });

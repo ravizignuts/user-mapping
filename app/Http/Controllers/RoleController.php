@@ -63,6 +63,19 @@ class RoleController extends Controller
             'role'    => $role
         ]);
     }
+     /**
+     * API for restore module
+     * @param $id
+     * @return json
+     */
+    public function restore($id){
+        $role = Role::withTrashed()->findOrFail($id);
+        $role->restore();
+        return response()->json([
+            'message'    => 'Role Restored successfully',
+            'module'     =>  $role
+        ]);
+    }
     /**
      * API for list role
      * @param Request $request
