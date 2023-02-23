@@ -16,12 +16,17 @@ class AccessMiddleware
      */
     public function handle(Request $request, Closure $next, $module, $permission)
     {
-        $user =  Auth::user()->hasUser($module, $permission); //Testing , Add
-        if ($user) {
+        // if(Auth::user()->type == 'superadmin'){
+        //     return response()->json(['Supper Admin Can Access']);
+        // }
+        // elseif(Auth::user()->type == 'admin'){
+        //     return response()->json(['Admin Can Access']);
+        // }else{
+            $user =  Auth::user()->hasUser($module, $permission); //Module name,permission
+            if ($user) {
             return $next($request);
-        }
-        return response()->json([
-            'status'=>"not Access",
-        ]);
+            }
+            return response()->json(['Not Access']);
+        // }
     }
 }

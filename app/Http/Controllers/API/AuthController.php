@@ -84,7 +84,18 @@ class AuthController extends Controller
             ]);
         }
     }
-    public function logout(){
-
+    /**
+     * API for Logout user
+     * @param  Request $request
+     * @return json data
+     */
+    public function logout(Request $request){
+        $user = User::findOrFail($request->id);
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([
+            'success' => true,
+            'user'    => $user['first_name'],
+            'message' => 'User Logout'
+        ]);
     }
 }
