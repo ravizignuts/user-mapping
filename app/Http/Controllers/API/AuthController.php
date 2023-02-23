@@ -25,8 +25,8 @@ class AuthController extends Controller
             'email'      => 'string|required|unique:users,email',
             'password'   => 'string|min:8|max:20',
             'c_password' => 'string|same:password',
-            'code'       => 'string|required|min:6',
-            'type'       => 'string|required|in:superadmin,admin,user'
+            'code'       => 'string|required|min:6|unique:users,code',
+            'type'       => 'string|in:superadmin,admin,user'
         ]);
         if ($validator->fails()) {
             $response = [
@@ -38,10 +38,10 @@ class AuthController extends Controller
         $request['password'] = Hash::make($request->password);
         $user = User::create($request->only('first_name', 'last_name', 'email', 'password', 'code', 'type'));
         $success['token'] = $user->createToken('MyApp')->plainTextToken;
-        $success['name']  = $user->first_name;
         $response = [
             'success' => true,
             'data'    => $success,
+            'user'    => $user,
             'message' => 'User Registration Successfully'
         ];
         return response()->json($response, 200);
@@ -70,10 +70,10 @@ class AuthController extends Controller
             /** @var \App\Models\User $user **/
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->plainTextToken;
-            $success['name']  = $user->first_name;
             $response = [
                 'success' => true,
                 'data'    => $success,
+                'user'    => $user,
                 'message' => 'User Login Successfully'
             ];
             return response()->json($response, 200);
@@ -94,7 +94,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json([
             'success' => true,
-            'user'    => $user['first_name'],
+            'user'    => $user,
             'message' => 'User Logout'
         ]);
     }
