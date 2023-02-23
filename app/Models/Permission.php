@@ -29,6 +29,7 @@ class Permission extends Model
     }
     /**
      * hasPermission method for checking acces of module
+     * @param $module_code,$permission
      */
     public function hasPermission($module_code,$permission){
         $module = Module::where('module_code',$module_code)->first();

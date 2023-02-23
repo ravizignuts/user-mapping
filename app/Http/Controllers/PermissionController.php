@@ -86,11 +86,23 @@ class PermissionController extends Controller
         $permission = Permission::withTrashed()->findOrFail($id);
         // $permission = Permission::onlyTrashed()findOrFail($id);
         if ($request->softdelete == 'softdelete')  $permission->delete();
-        elseif ($request->softdelete == 'restore') $permission->restore();
         else $permission->forceDelete();
         return response()->json([
             'message'    => 'Permission deleted successfully',
             'permission' => $permission
+        ]);
+    }
+    /**
+     * API for restore module
+     * @param $id
+     * @return json
+     */
+    public function restore($id){
+        $permission = Permission::withTrashed()->findOrFail($id);
+        $permission->restore();
+        return response()->json([
+            'message'    => 'Permission Restored successfully',
+            'module'     => $permission
         ]);
     }
     /**

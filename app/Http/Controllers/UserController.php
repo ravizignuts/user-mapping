@@ -68,11 +68,23 @@ class UserController extends Controller
     {
         $user = User::withTrashed()->findOrFail($id);
         if($request->softdelete == 'softdelete') $user->delete();
-        elseif($request->softdelete == 'restore')$user->restore();
         else $user->forcedelete();
         return response()->json([
             'message' => 'User deleted successfully',
             'user'    => $user
+        ]);
+    }
+    /**
+     * API for restore module
+     * @param $id
+     * @return json
+     */
+    public function restore($id){
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        return response()->json([
+            'message'    => 'User Restored successfully',
+            'module'     =>  $user
         ]);
     }
     /**
