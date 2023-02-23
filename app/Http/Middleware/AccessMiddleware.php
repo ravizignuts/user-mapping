@@ -16,10 +16,16 @@ class AccessMiddleware
      */
     public function handle(Request $request, Closure $next, $module, $permission)
     {
-        $user =  Auth::user()->hasUser($module, $permission); //Testing , Add
-        if ($user) {
-            return $user;
+        if (Auth::user()->type == 'admin') {
+            // return response()->json(['Admin Can Access']);
+            return $next($request);
+        } else {
+            $access =  Auth::user()->hasUser($module, $permission); //Module name,permission
+            if ($access) {
+                return $next($request);
+            } else {
+                return response()->json(['Access Forbidden']);
+            }
         }
-        return $next($request);
     }
 }

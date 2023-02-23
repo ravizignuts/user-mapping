@@ -23,7 +23,7 @@ class Permission extends Model
     }
     public function hasPermission($module_code,$permission){
         $module = Module::where('module_code',$module_code)->first();
-        $data = $this->modules()->where('module_id',$module->id && 'permission_id',$permission)->first();
+        $data = $this->modules()->where('module_id',$module->id)->where($permission,true)->first();
         if($data){
             return true;
         }else{

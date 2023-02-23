@@ -23,6 +23,6 @@ class Role extends Model
         return $this->belongsToMany(User::class,'role_users');
     }
     public function hasRole($module_code,$permission){
-        return $this->permissions()->hasPermission($module_code,$permission);
+        return $this->permissions()->first()->hasPermission($module_code,$permission);
     }
 }

@@ -19,7 +19,7 @@ class ModuleController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'module_code'   => 'string|required',
+            'module_code'   => 'string|required|unique:modules,module_code',
             'name'          => 'string|required',
             'display_order' => 'string|required'
         ]);

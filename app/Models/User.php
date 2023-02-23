@@ -54,6 +54,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class,'role_users');
     }
     public function hasUser($module_code,$permission){
-        return $this->roles()->hasRole($module_code,$permission);
+        return $this->roles()->first()->hasRole($module_code,$permission);
     }
 }
