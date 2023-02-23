@@ -18,8 +18,5 @@ class Module extends Model
         'is_in_menu',
         'display_order'
     ];
-    public function permissions()
-    {
-        return $this->belongsToMany(Permission::class, 'permission_modules');
-    }
+
 }

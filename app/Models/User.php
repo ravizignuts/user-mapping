@@ -50,9 +50,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * define manyTomany relationship with Role using role_users pivot table
+     */
     public function roles(){
         return $this->belongsToMany(Role::class,'role_users');
     }
+    /**
+     * pass parameter of middleware through relationship
+     */
     public function hasUser($module_code,$permission){
         return $this->roles()->first()->hasRole($module_code,$permission);
     }

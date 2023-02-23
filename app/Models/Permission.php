@@ -15,12 +15,21 @@ class Permission extends Model
         'description',
         'is_active'
     ];
+    /**
+     * define hasMany Relaionship with permission module
+     */
     public function modules(){
         return $this->hasMany(PermissionModule::class,'permission_id');
     }
+    /**
+     * define manyTomany relationship with Role using permission_role pivot table
+     */
     public function role(){
         return $this->belongsToMany(Role::class,'permission_role','role_id','permission_id','id','id');
     }
+    /**
+     * hasPermission method for checking acces of module
+     */
     public function hasPermission($module_code,$permission){
         $module = Module::where('module_code',$module_code)->first();
         $data = $this->modules()->where('module_id',$module->id)->where($permission,true)->first();
