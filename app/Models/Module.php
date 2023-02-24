@@ -11,6 +11,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Module extends Model
 {
     use Uuids, HasFactory, SoftDeletes;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'module_code',
         'name',
@@ -18,5 +23,4 @@ class Module extends Model
         'is_in_menu',
         'display_order'
     ];
-
 }
