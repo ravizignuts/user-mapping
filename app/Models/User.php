@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Observers\addColumnObserver;
+use App\Models\BaseModel;
 use App\Observers\UserObserver;
 use App\Traits\Uuids;
 use Laravel\Sanctum\HasApiTokens;
@@ -17,7 +18,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Uuids, HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use Uuids,BaseModel, HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -70,17 +71,17 @@ class User extends Authenticatable
     }
 
 
-    public static function booted(){
-        parent::boot();
-        static::creating(function (User $user){
-            $user->created_by = $user->id;
-            $user->updated_by = $user->id;
-        });
-        static::updating(function (User $user){
-            $user = Auth::user();
-            $user->updated_by = $user->id;
-        });
-    }
+    // public static function booted(){
+    //     parent::boot();
+    //     static::creating(function (User $user){
+    //         $user->created_by = $user->id;
+    //         $user->updated_by = $user->id;
+    //     });
+    //     static::updating(function (User $user){
+    //         $user = Auth::user();
+    //         $user->updated_by = $user->id;
+    //     });
+    // }
 
     // public static function boot(){
     //     parent::boot();
