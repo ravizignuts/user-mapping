@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Module;
+use App\Traits\QueryTrait;
 use Illuminate\Http\Request;
 use App\Models\PermissionModule;
 use Illuminate\Console\View\Components\Choice;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class ModuleController extends Controller
 {
+    use QueryTrait;
     /**
      * API for create module
      * @param Request $request
@@ -86,11 +88,7 @@ class ModuleController extends Controller
      */
     public function view($id)
     {
-        $module = Module::findOrFail($id);
-        return response()->json([
-            'message' => 'Module  details',
-            'module'  => $module
-        ]);
+        return $this->getModule($id);
     }
     /**
      * API for list module
