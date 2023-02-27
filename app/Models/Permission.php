@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Traits\Uuids;
 use App\Models\PermissionModule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Permission extends Model
 {
@@ -48,5 +49,25 @@ class Permission extends Model
         } else {
             return false;
         }
+    }
+
+    public static function booted(){
+        parent::boot();
+        static::creating(function (Permission $permission){
+            $user = Auth::user();
+            $permission->created_by = $user->id;
+            $permission->updated_by = $user->id;
+        });
+        static::updating(function (Permission $permission){
+            $user = Auth::user();
+            $permission->updated_by = $user->id;
+        });
+        static::softDeleted(function (Permission $permission){
+            $user = Auth::user();
+            $permission->deleted_by = $user->id;
+        });
+        static::restored(function (Permission $permission){
+            $permission->deleted_by = null;
+        });
     }
 }
