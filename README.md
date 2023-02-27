@@ -9,9 +9,17 @@
 
 ## User-Role-Permission-Module mapping system
 ## Project Destination
-This project is use to Mapping the users with User,Role.Permission,Module
+This project is use to Mapping the users with Role.Permission,Module
 ## Installation
+Clone this repository
+1 . composer install
+2 . cp .env.example .env
+3 . php artisan migrate
+4 . php artisan key:generate
+5 . php artisan serve
+
 ## Pre-Required Packages
+
 ## Develop  Functionalitys
 ## About Laravel
 
