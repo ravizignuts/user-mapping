@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Module extends Model
+class Module extends BaseModel
 {
-    use Uuids, BaseModel, QueryTrait, HasFactory, SoftDeletes;
+    use Uuids, QueryTrait, HasFactory, SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -26,24 +26,4 @@ class Module extends Model
         'is_in_menu',
         'display_order'
     ];
-
-    // public static function booted(){
-    //     parent::boot();
-    //     static::creating(function (Module $module){
-    //         $user = Auth::user();
-    //         $module->created_by = $user->id;
-    //         $module->updated_by = $user->id;
-    //     });
-    //     static::updating(function (Module $module){
-    //         $user = Auth::user();
-    //         $module->updated_by = $user->id;
-    //     });
-    //     static::softDeleted(function (Module $module){
-    //         $user = Auth::user();
-    //         $module->deleted_by = $user->id;
-    //     });
-    //     static::restored(function (Module $module){
-    //         $module->deleted_by = null;
-    //     });
-    // }
 }
