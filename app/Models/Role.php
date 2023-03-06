@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
-class Role extends Model
+class Role extends BaseModel
 {
     use Uuids, HasFactory, SoftDeletes;
     /**
@@ -44,24 +44,5 @@ class Role extends Model
     public function hasRole($module_code, $permission)
     {
         return $this->permissions()->first()->hasPermission($module_code, $permission);
-    }
-    public static function booted(){
-        parent::boot();
-        static::creating(function (Role $role){
-            $user = Auth::user();
-            $role->created_by = $user->id;
-            $role->updated_by = $user->id;
-        });
-        static::updating(function (Role $role){
-            $user = Auth::user();
-            $role->updated_by = $user->id;
-        });
-        static::softDeleted(function (Role $role){
-            $user = Auth::user();
-            $role->deleted_by = $user->id;
-        });
-        static::restored(function (Role $role){
-            $role->deleted_by = null;
-        });
     }
 }
