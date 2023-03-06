@@ -11,6 +11,11 @@ class PermissionModule extends Model
 {
     use Uuids;
     use HasFactory;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'permission_id',
         'module_id',

@@ -20,11 +20,10 @@ return new class extends Migration
             $table->integer('display_order');
             $table->timestamps();
             $table->softDeletes('deleted_at');
-            // $table->foreignUuid('created_by')->references('id')->on('users')->nullable();
-            // $table->foreignUuid('updated_by')->references('id')->on('users')->nullable();
-            // $table->timestamp('deleted_at');
-            // $table->foreignUuid('deleted_by')->references('id')->on('users')->nullable();
-            // $table->boolean('is_delete')->default(1);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->boolean('is_delete')->default(1);
 
         });
     }
