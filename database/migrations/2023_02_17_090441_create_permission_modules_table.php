@@ -21,6 +21,10 @@ return new class extends Migration
             $table->boolean('view_access')->default(1);
             $table->timestamps();
             $table->softDeletes('deleted_at');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->boolean('is_delete')->default(1);
         });
     }
 

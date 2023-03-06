@@ -2,15 +2,23 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\BaseModel;
 use App\Traits\Uuids;
-use App\Models\Permission;
+use App\Traits\QueryTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Module extends Model
+class Module extends BaseModel
 {
-    use Uuids, HasFactory, SoftDeletes;
+    use Uuids, QueryTrait, HasFactory, SoftDeletes;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'module_code',
         'name',
@@ -18,5 +26,4 @@ class Module extends Model
         'is_in_menu',
         'display_order'
     ];
-
 }

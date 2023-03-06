@@ -24,14 +24,10 @@ return new class extends Migration
             $table->enum('type', ['superadmin', 'admin', 'user'])->default('user');
             $table->timestamps();
             $table->softDeletes();
-            // $table->foreignUuid('created_by')->references('id')->on('users');
-            // $table->timestamps();
-            // $table->foreignUuid('updated_by')->references('id')->on('users');
-            // $table->timestamp('deleted_at');
-            // $table->foreignUuid('deleted_by')->references('id')->on('users');
-            // $table->boolean('is_delete')->default(1);
-
-
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->boolean('is_delete')->default(1);
         });
     }
 
